@@ -24,7 +24,7 @@
 # .idea/tasks.xml
 # .idea/dictionaries
 # .idea/shelf
-
+.DS_Store
 # Sensitive or high-churn files:
 # .idea/dataSources.ids
 # .idea/dataSources.xml

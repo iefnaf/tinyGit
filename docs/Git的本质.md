@@ -8,7 +8,9 @@ Google Docs支持对文档进行版本控制，我们先来看一下Google Docs�
 
 我们在使用Google Docs写文章时，Google Docs会每隔一段时间保存文档的一个版本，通过查看所有的历史版本，我们可以看到整个文档的编写过程。
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507165518569.png" alt="image-20220507165518569" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507165443139.png" alt="image-20220507165518569" style="zoom:75%;" />
+
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507165518569.png" alt="image-20220507165518569" style="zoom:75%;" />
 
 软件开发是一个迭代的过程，保存代码的不同版本是很有必要的。和Google Docs一样，Git所做的事情就是**保存代码的不同版本**，方便我们在不同的版本之间进行切换。
 
@@ -52,7 +54,7 @@ Google Docs支持对文档进行版本控制，我们先来看一下Google Docs�
 
 使用这种方法，在提交3个commit之后我们的.git文件夹中应该包含以下这些文件：
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507191957053.png" alt="image-20220507191957053" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507191957053.png" alt="image-20220507191957053" style="zoom:85%;" />
 
 这种做法的优点是实现简单：
 
@@ -73,17 +75,17 @@ Google Docs支持对文档进行版本控制，我们先来看一下Google Docs�
 
 此时，我们的.git文件夹中应该包含以下文件：
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507192650851.png" alt="image-20220507192650851" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507192650851.png" alt="image-20220507192650851" style="zoom:85%;" />
 
 相比于方法1，方法2的优点是节省了存储空间，但是checkout命令也变得更复杂了，尤其是当我们想checkout到一个commit时，我们需要从不同的版本目录中拷贝文件到工作目录。
 
 下面是方法2checkout的一个例子。假设我们有以下五个commit：
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507193050585.png" alt="image-20220507193050585" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507193050585.png" alt="image-20220507193050585" style="zoom:85%;" />
 
 现在我们需要从v5切到v4，git为了得到需要拷贝的文件，不得不扫描从v1到v4的所有commit的历史。
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507193443215.png" alt="image-20220507193443215" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507193443215.png" alt="image-20220507193443215" style="zoom:85%;" />
 
 如何做才能避免这种扫描的过程呢？换个问法，我们如何才能快速得到某个commit中所有的文件，以及每个文件的版本？
 
@@ -91,7 +93,7 @@ Google Docs支持对文档进行版本控制，我们先来看一下Google Docs�
 
 保存所有的commit，每个commit是一个map，记录这个commit中项目所包含的文件和该文件对应的版本，并使用文件所在的commit作为该文件的版本号。
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507193628549.png" alt="image-20220507193628549" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507193628549.png" alt="image-20220507193628549" style="zoom:85%;" />
 
 以上图为例，我们需要保存五个commit，每个commit的内容如下所示：
 
@@ -119,7 +121,7 @@ V5: Hello.java -> v5, Friend.java -> v4, Egg.java -> v3
 
 那么能不能使用提交commit时的本地时间来作为commit的编号呢？就像下图这样？
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507195739967.png" alt="image-20220507195739967" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507195739967.png" alt="image-20220507195739967" style="zoom:85%;" />
 
 这种做法同样是行不通的，因为git是一个分布式应用，可能存在两个程序员同时提交commit的情形，这种情况下两个commit的编号就发生冲突了。
 
@@ -157,6 +159,6 @@ git存储所有的commit，每个commit包含以下内容：
 * 该commit的父commit的编号
 * 该commit中包含的所有文件的列表，以及每个文件对应的版本号
 
-<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507200816780.png" alt="image-20220507200816780" style="zoom:50%;" />
+<img src="https://github.com/iefnaf/tinyGit/blob/master/docs/images/image-20220507200816780.png" alt="image-20220507200816780" style="zoom:75%;" />
 
 我们在查看commit的历史记录时，每个commit后会有一堆数字，这个数字就是对该commit的内容取哈希的值，也是这个commit的编号。
